@@ -73,7 +73,8 @@ int check_dup(t_stack *stack, int num)
 {
     t_node *current;
 
-    if (!stack) return (0);
+    if (!stack)
+        return (0);
     current = stack->top;
     while (current)
     {

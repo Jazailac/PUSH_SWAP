@@ -127,16 +127,70 @@ void    pb(t_stack *stack_a, t_stack *stack_b)
     
     if (!stack_a || !stack_b || !stack_a->top)
         return;
-    
-    // Remove top element from stack a
     top_a = stack_a->top;
     stack_a->top = top_a->next;
     stack_a->size--;
-    
-    // Add element to top of stack b
     top_a->next = stack_b->top;
     stack_b->top = top_a;
     stack_b->size++;
     
     ft_putstr_fd("pb\n", 1);
+
+}
+
+void rra(t_stack *stack)
+{
+    t_node *last;
+    t_node *new_top;
+    
+
+    if (!stack || stack->size < 2) 
+        return;
+    last = stack->top;
+    while (last->next->next)
+        last = last->next;
+    new_top = last->next;
+    last->next = NULL;
+    new_top->next = stack->top;
+    stack->top = new_top;
+    ft_putstr_fd("rra\n", 1);
+}
+
+void rrb(t_stack *stack)
+{
+    t_node *last;
+    t_node *new_top;
+    
+
+    if (!stack || stack->size < 2) 
+        return;
+    last = stack->top;
+    while (last->next->next)
+        last = last->next;
+    new_top = last->next;
+    last->next = NULL;
+    new_top->next = stack->top;
+    stack->top = new_top;
+    ft_putstr_fd("rrb\n", 1);
+}
+
+int is_sorted(t_stack *a) 
+{
+    t_node *node;
+    
+    node = a->top;
+    while (node && node->next)
+    {
+        if (node->nbr > node->next->nbr)
+            return (0);
+        node = node->next;
+    }
+    return 1;
+}
+
+void    rrr(t_stack *stack_a, t_stack *stack_b)
+{
+    rra(stack_a);
+    rrb(stack_b);
+    ft_putstr_fd("rrr\n", 1);
 }

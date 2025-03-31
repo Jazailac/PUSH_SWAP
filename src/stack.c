@@ -60,3 +60,24 @@ void stack_clear(t_stack *stack)
     stack->top = NULL;
     stack->size = 0;
 }
+
+int *create_sorted_array(t_stack *a)
+{
+    int *arr;
+    t_node *node;
+    int i, j, temp;
+
+    if (!a || a->size == 0)
+        return (NULL);
+    arr = malloc(a->size * sizeof(int));
+    if (!arr)
+        return (NULL);
+    node = a->top;
+    for (i = 0; node; i++, node = node->next)
+        arr[i] = node->nbr;
+    for (i = 0; i < a->size - 1; i++)
+        for (j = 0; j < a->size - i - 1; j++)
+            if (arr[j] > arr[j + 1])
+                temp = arr[j], arr[j] = arr[j + 1], arr[j + 1] = temp;
+    return (arr);
+}

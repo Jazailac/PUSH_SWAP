@@ -37,4 +37,8 @@ void    pa(t_stack *stack_a, t_stack *stack_b);
 void    pb(t_stack *stack_a, t_stack *stack_b);
 void    ra(t_stack *stack);
 
+int *create_sorted_array(t_stack *a);
+int is_sorted(t_stack *a) ;
+
+
 #endif
