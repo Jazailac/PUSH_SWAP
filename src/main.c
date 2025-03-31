@@ -1,21 +1,5 @@
 #include "../push_swap.h"
 
-int find_next_in_range(t_stack *a, int *sorted, int low, int high)
-{
-    t_node  *node = a->top;
-    int     pos = 0;
-
-    while (node != NULL) {
-        if (node->nbr >= sorted[low] && node->nbr <= sorted[high])
-            return (pos);
-        node = node->next;
-        pos++;
-    }
-    return (-1);
-}
-
-
-
 
 int parse_single_arg(char *arg, t_stack *stack)
 {
@@ -53,8 +37,6 @@ int parse_single_arg(char *arg, t_stack *stack)
     return (1);
 }
 
-
-
 int parse_args(int argc, char **argv, t_stack *stack)
 {
     int i;
@@ -91,16 +73,32 @@ void    stack_print(t_stack *stack)
     printf("\n");
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     t_stack stack;
     t_stack stack_b;
+    int *sorted_arr;
 
     if (argc < 2) return (0);
+    init_stack(&stack);
+    init_stack(&stack_b); 
     if (!parse_args(argc, argv, &stack)) {
         ft_putstr_fd("Error\n", 2);
         return (1);
     }
-    stack_print(&stack);
+
+    if (!is_sorted(&stack)) {
+        sorted_arr = create_sorted_array(&stack);
+        if (sorted_arr) {
+            if (stack.size <= 3)
+                sort_three(&stack);
+            else if (stack.size <= 5)
+                sort_five(&stack, &stack_b, sorted_arr);
+            else
+                sort_large(&stack, &stack_b, sorted_arr);
+            free(sorted_arr);
+        }
+    }
+    stack_clear(&stack);
+    stack_clear(&stack_b);
     return (0);
 }

@@ -3,7 +3,7 @@ NAME = push_swap
 CFlAGS = -Wall -Wextra -Werror 
 CC = cc 
 
-SRC = src/main.c src/validate_input.c src/stack.c src/operations.c
+SRC = src/main.c src/validate_input.c src/stack.c src/operations.c src/sort_tset.c
 OBJS = $(SRC:.c=.o)
 
 LIBFT_DIR = LIBFT
