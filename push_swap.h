@@ -28,6 +28,7 @@ void stack_push(t_stack *stack, t_node *node);
 void init_stack(t_stack *stack);
 t_node *create_node(int num);
 char **split_arg(const char *str);
+void radix_sort(t_stack *stack_a, t_stack *stack_b, int *sorted_arr);
 void free_split(char **split);
 int find_next_in_range(t_stack *a, int *sorted, int low, int high);
 int parse_single_arg(char *arg, t_stack *stack);

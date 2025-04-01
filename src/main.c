@@ -52,27 +52,6 @@ int parse_args(int argc, char **argv, t_stack *stack)
     return (1);
 }
 
-void    stack_print(t_stack *stack)
-{
-    t_node  *current;
-
-    if (!stack)
-    {
-        printf("(null stack)\n");
-        return ;
-    }
-    current = stack->top;
-    printf("Stack [%d elements]: ", stack->size);
-    while (current)
-    {
-        printf("%d", current->nbr);
-        current = current->next;
-        if (current)
-            printf(" -> ");
-    }
-    printf("\n");
-}
-
 int main(int argc, char **argv) {
     t_stack stack;
     t_stack stack_b;
@@ -94,7 +73,7 @@ int main(int argc, char **argv) {
             else if (stack.size <= 5)
                 sort_five(&stack, &stack_b, sorted_arr);
             else
-                sort_large(&stack, &stack_b, sorted_arr);
+                radix_sort(&stack, &stack_b, sorted_arr);
             free(sorted_arr);
         }
     }

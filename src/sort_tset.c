@@ -1,219 +1,154 @@
 #include "../push_swap.h"
 
-
-void sort_three(t_stack *a)
+/* 
+ * Get the maximum number of bits needed to represent the largest number in the stack
+ */
+static int get_max_bits(t_stack *stack)
 {
-    int first, second, third;
+    t_node *current;
+    int max;
+    int max_bits;
     
-    if (a->size < 2)
-        return;
-    if (a->size == 2)
+    if (!stack || !stack->top)
+        return (0);
+    
+    current = stack->top;
+    max = current->nbr;
+    
+    // Find the maximum number in the stack
+    while (current)
     {
-        if (a->top->nbr > a->top->next->nbr)
-            sa(a);
-        return;
+        if (current->nbr > max)
+            max = current->nbr;
+        current = current->next;
     }
     
-    first = a->top->nbr;
-    second = a->top->next->nbr;
-    third = a->top->next->next->nbr;
-    
-    if (first > second && second < third && first < third)
-        sa(a);
-    else if (first > second && second > third)
-    {
-        sa(a);
-        rra(a);
-    }
-    else if (first > second && second < third && first > third)
-        ra(a);
-    else if (first < second && second > third && first < third)
-    {
-        sa(a);
-        ra(a);
-    }
-    else if (first < second && second > third && first > third)
-        rra(a);
-}
-
-int find_position(t_stack *stack, int target)
-{
-    int pos;
-    t_node *node;
-    
-    pos = 0;
-    node = stack->top;
-    while (node)
-    {
-        if (node->nbr == target)
-            return (pos);
-        node = node->next;
-        pos++;
-    }
-    return (-1);
-}
-
-int find_next_in_range(t_stack *a, int *sorted, int low, int high)
-{
-    t_node  *node;
-    int     pos;
-
-    if (low < 0)
-        low = 0;
-    if (high >= a->size)
-        high = a->size - 1;
-    
-    node = a->top;
-    pos = 0;
-    while (node)
-    {
-        if (node->nbr >= sorted[low] && node->nbr <= sorted[high])
-            return (pos);
-        node = node->next;
-        pos++;
-    }
-    return (-1);
-}
-
-void rotate_to_top_a(t_stack *a, int pos)
-{
-    if (pos <= a->size / 2)
-    {
-        while (pos > 0)
-        {
-            ra(a);
-            pos--;
-        }
-    }
-    else
-    {
-        pos = a->size - pos;
-        while (pos > 0)
-        {
-            rra(a);
-            pos--;
-        }
-    }
-}
-
-void rotate_to_top_b(t_stack *b, int pos)
-{
-    if (pos <= b->size / 2)
-    {
-        while (pos > 0)
-        {
-            rb(b);
-            pos--;
-        }
-    }
-    else
-    {
-        pos = b->size - pos;
-        while (pos > 0)
-        {
-            rrb(b);
-            pos--;
-        }
-    }
-}
-
-int find_max_position(t_stack *b)
-{
-    t_node  *node;
-    int     max;
-    int     max_pos;
-    int     pos;
-    
-    if (!b->top)
-        return (-1);
-    
-    max = b->top->nbr;
-    max_pos = 0;
-    pos = 0;
-    node = b->top;
-    
-    while (node)
-    {
-        if (node->nbr > max)
-        {
-            max = node->nbr;
-            max_pos = pos;
-        }
-        node = node->next;
-        pos++;
-    }
-    return (max_pos);
-}
-
-void sort_five(t_stack *a, t_stack *b, int *sorted)
-{
-    int smallest_pos;
-    int second_smallest_pos;
-    
-    // Push the two smallest numbers to stack B
-    smallest_pos = find_position(a, sorted[0]);
-    rotate_to_top_a(a, smallest_pos);
-    pb(a, b);
-    
-    if (a->size > 3)
-    {
-        second_smallest_pos = find_position(a, sorted[1]);
-        rotate_to_top_a(a, second_smallest_pos);
-        pb(a, b);
-    }
-    
-    // Sort the remaining 3 elements in stack A
-    sort_three(a);
-    
-    // Push elements back from B to A
-    while (b->size > 0)
-        pa(a, b);
-}
-
-int calculate_chunk_size(int size)
-{
-    if (size <= 100)
-        return (15);
-    return (30);
-}
-
-void sort_large(t_stack *a, t_stack *b, int *sorted)
-{
-    int chunk_size;
-    int total_size;
-    int chunks;
-    int i;
-    int pos;
-    int start;
-    int end;
-    
-    chunk_size = calculate_chunk_size(a->size);
-    total_size = a->size;
-    chunks = (total_size + chunk_size - 1) / chunk_size;
-    
-    // Push elements to stack B in chunks
-    i = 0;
-    while (i < chunks)
-    {
-        start = i * chunk_size;
-        end = start + chunk_size - 1;
-        if (end >= total_size)
-            end = total_size - 1;
+    // Find how many bits are needed to represent the max number
+    max_bits = 0;
+    while (max >> max_bits)
+        max_bits++;
         
-        // Push all elements in current chunk to B
-        while ((pos = find_next_in_range(a, sorted, start, end)) != -1)
+    return (max_bits);
+}
+
+/*
+ * Normalize the stack values to make them all positive
+ * This is needed for the radix sort to work properly with negative numbers
+ * Returns an array of indices that map stack positions to sorted array positions
+ */
+static int *normalize_stack(t_stack *stack, int *sorted_arr)
+{
+    t_node *current;
+    int *index_arr;
+    int i;
+    int j;
+    
+    if (!stack || !sorted_arr)
+        return (NULL);
+        
+    index_arr = malloc(stack->size * sizeof(int));
+    if (!index_arr)
+        return (NULL);
+        
+    // Map each number in the stack to its index in the sorted array
+    current = stack->top;
+    i = 0;
+    while (current)
+    {
+        j = 0;
+        while (j < stack->size)
         {
-            rotate_to_top_a(a, pos);
-            pb(a, b);
+            if (current->nbr == sorted_arr[j])
+            {
+                index_arr[i] = j;
+                break;
+            }
+            j++;
         }
+        current = current->next;
         i++;
     }
     
-    // Push elements back from B to A in descending order
-    while (b->size > 0)
+    // Update stack values with normalized indices
+    current = stack->top;
+    i = 0;
+    while (current)
     {
-        pos = find_max_position(b);
-        rotate_to_top_b(b, pos);
-        pa(a, b);
+        current->nbr = index_arr[i];
+        current = current->next;
+        i++;
     }
+    
+    return (index_arr);
+}
+
+/*
+ * Restore original values from the normalized values
+ */
+static void restore_original_values(t_stack *stack, int *sorted_arr, int *index_arr)
+{
+    t_node *current;
+    int i;
+    
+    if (!stack || !sorted_arr || !index_arr)
+        return;
+        
+    current = stack->top;
+    i = 0;
+    while (current)
+    {
+        current->nbr = sorted_arr[current->nbr];
+        current = current->next;
+        i++;
+    }
+    
+    free(index_arr);
+}
+
+/*
+ * Perform radix sort on the stack
+ */
+void radix_sort(t_stack *stack_a, t_stack *stack_b, int *sorted_arr)
+{
+    int max_bits;
+    int size;
+    int i;
+    int j;
+    int *index_arr;
+    
+    if (!stack_a || !stack_b || !sorted_arr)
+        return;
+        
+    size = stack_a->size;
+    if (size <= 1)
+        return;
+        
+    // Normalize the stack values to handle negative numbers
+    index_arr = normalize_stack(stack_a, sorted_arr);
+    if (!index_arr)
+        return;
+        
+    max_bits = get_max_bits(stack_a);
+    
+    // Sort for each bit position
+    for (i = 0; i < max_bits; i++)
+    {
+        // Check each number in stack A
+        for (j = 0; j < size; j++)
+        {
+            // If the bit at position i is 0, push to B
+            if (((stack_a->top->nbr >> i) & 1) == 0)
+                pb(stack_a, stack_b);
+            // Otherwise, rotate A to check the next number
+            else
+                ra(stack_a);
+        }
+        
+        // Push all numbers back from B to A
+        while (stack_b->size > 0)
+            pa(stack_a, stack_b);
+    }
+    
+    // Restore original values
+    restore_original_values(stack_a, sorted_arr, index_arr);
 }
