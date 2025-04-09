@@ -52,32 +52,23 @@ void rrr(t_stack *a, t_stack *b);
 void rra(t_stack *a);
 void rr(t_stack *a, t_stack *b);
 void ss(t_stack *a, t_stack *b);
-
-
 void sort_small(t_stack *a, t_stack *b);
 void sort_two(t_stack *stack);
 void sort_three(t_stack *stack);
 int is_sorted(t_stack *stack);
-
-
-
-void sort_small(t_stack *a, t_stack *b);
-void sort_two(t_stack *stack);
-void sort_three(t_stack *stack);
-int is_sorted(t_stack *stack);
-
-// Large sort functions
 void sort_large(t_stack *a, t_stack *b);
 int find_position(t_stack *stack, int value);
 int find_min(t_stack *stack);
 int find_max(t_stack *stack);
 int calculate_cost_a(t_stack *a, int pos);
+int	help_norm(char **args, t_stack *a, t_stack *b);
 int calculate_cost_b(t_stack *b, int pos);
 t_move find_best_move(t_stack *a, t_stack *b);
 void execute_best_move(t_stack *a, t_stack *b);
 t_move find_best_move_b_to_a(t_stack *a, t_stack *b);
 void execute_best_move_b_to_a(t_stack *a, t_stack *b);
 void final_rotate(t_stack *a);
+void	last_free(char **args, t_stack *a, t_stack *b);
 
 
 
