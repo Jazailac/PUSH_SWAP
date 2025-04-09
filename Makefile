@@ -2,18 +2,18 @@ CC = cc
 NAME = push_swap
 FLAGS = -Wall -Wextra -Werror
 
-src = main.c \
-		init.c \
-		parsing.c \
-		push.c \
-		utils.c \
-		swap.c \
-		rotate.c \
-		rev_rotate.c \
-		sort_small.c \
-		sort_large.c \
-		help_norm1.c \
-		help_norm2.c
+src = srcs/main.c \
+		srcs/init.c \
+		srcs/parsing.c \
+		srcs/push.c \
+		srcs/utils.c \
+		srcs/swap.c \
+		srcs/rotate.c \
+		srcs/rev_rotate.c \
+		srcs/sort_small.c \
+		srcs/sort_large.c \
+		srcs/help_norm1.c \
+		srcs/help_norm2.c
 
 OBJ = $(src:.c=.o)
 LIBFT_DIR = LIBFT
