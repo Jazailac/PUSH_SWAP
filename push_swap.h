@@ -1,57 +1,84 @@
-# ifndef PUSH_SWAP
-#define PUSH_SWAP
+#ifndef PUSH_SWAP_H
+#define PUSH_SWAP_H
 
 #include "LIBFT/libft.h"
-#include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
 #include <limits.h>
+#include <unistd.h>
+#include <stdio.h>
 
 typedef struct s_node
 {
-	int		nbr;
-	struct s_node	*next;
+    struct s_node *next;
+    int value;
 }t_node;
 
 typedef struct s_stack
 {
-	struct s_node	*top;
-	int		size;
+    struct s_node *top;
+    int size;
 }t_stack;
 
-
-int is_valid_int(const char *str);
-int parse_number(const char *str, int *num);
-int check_dup(t_stack *stack, int num);
-void stack_clear(t_stack *stack);
-void stack_append(t_stack *stack, t_node *node);
-void stack_push(t_stack *stack, t_node *node);
-void init_stack(t_stack *stack);
-t_node *create_node(int num);
-char **split_arg(const char *str);
-void radix_sort(t_stack *stack_a, t_stack *stack_b, int *sorted_arr);
-void free_split(char **split);
-int find_next_in_range(t_stack *a, int *sorted, int low, int high);
-int parse_single_arg(char *arg, t_stack *stack);
+typedef struct s_move
+{
+    int a_pos;
+    int b_pos;
+    int cost;
+} t_move;
 
 
-void    sa(t_stack *stack);
-void    pa(t_stack *stack_a, t_stack *stack_b);
-void    pb(t_stack *stack_a, t_stack *stack_b);
-void    ra(t_stack *stack);
-void    rb(t_stack *stack);
-void    rra(t_stack *stack);
-void    rrb(t_stack *stack);
+void push(t_stack *stack, int value);
+void add_to_stack_end(t_stack *stack, int value);
+void free_array(char **array);
+int is_nbr(char *str);
+int	find_min_pos(t_stack *stack);
+t_stack *init_stack(void);
+int has_dups(t_stack *stack, int num);
+void free_stack(t_stack *stack);
+long ft_atol(char *str);
+char **parse_args(int ac, char **av);
+int check_and_fill(t_stack *stack, char **args);
+void sa(t_stack *a);
+void sb(t_stack *a);
+void swap(t_stack *stack);
+void pb(t_stack *a, t_stack *b);
+void pa(t_stack *a, t_stack *b);
+void print_stack(t_stack *stack);
+void rotate(t_stack *stack);
+void ra(t_stack *a);
+void rb(t_stack *b);
+void rrb(t_stack *b);
+void rrr(t_stack *a, t_stack *b);
+void rra(t_stack *a);
+void rr(t_stack *a, t_stack *b);
+void ss(t_stack *a, t_stack *b);
 
-int *create_sorted_array(t_stack *a);
-int is_sorted(t_stack *a) ;
-void sort_three(t_stack *a);
-void sort_five(t_stack *a, t_stack *b, int *sorted);
-void sort_large(t_stack *a, t_stack *b, int *sorted);
-int find_max_position(t_stack *b);
-int find_position(t_stack *stack, int target);
-void rotate_to_top_a(t_stack *a, int pos);
-void rotate_to_top_b(t_stack *b, int pos);
-int calculate_chunk_size(int size);
+
+void sort_small(t_stack *a, t_stack *b);
+void sort_two(t_stack *stack);
+void sort_three(t_stack *stack);
+int is_sorted(t_stack *stack);
+
+
+
+void sort_small(t_stack *a, t_stack *b);
+void sort_two(t_stack *stack);
+void sort_three(t_stack *stack);
+int is_sorted(t_stack *stack);
+
+// Large sort functions
+void sort_large(t_stack *a, t_stack *b);
+int find_position(t_stack *stack, int value);
+int find_min(t_stack *stack);
+int find_max(t_stack *stack);
+int calculate_cost_a(t_stack *a, int pos);
+int calculate_cost_b(t_stack *b, int pos);
+t_move find_best_move(t_stack *a, t_stack *b);
+void execute_best_move(t_stack *a, t_stack *b);
+t_move find_best_move_b_to_a(t_stack *a, t_stack *b);
+void execute_best_move_b_to_a(t_stack *a, t_stack *b);
+void final_rotate(t_stack *a);
+
 
 
 #endif

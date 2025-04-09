@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jazailac <jazailac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalalzailachi <jalalzailachi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 08:18:10 by jazailac          #+#    #+#             */
-/*   Updated: 2024/11/15 08:21:35 by jazailac         ###   ########.fr       */
+/*   Updated: 2025/04/07 23:00:25 by jalalzailac      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

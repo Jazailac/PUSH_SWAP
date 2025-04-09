@@ -1,33 +1,46 @@
+CC = cc
 NAME = push_swap
+FLAGS = -Wall -Wextra -Werror
 
-CFlAGS = -Wall -Wextra -Werror 
-CC = cc 
+src = main.c \
+		init.c \
+		parsing.c \
+		push.c \
+		utils.c \
+		swap.c \
+		rotate.c \
+		rev_rotate.c \
+		sort_small.c \
+		sort_large.c \
+		help_norm1.c \
+		help_norm2.c
 
-SRC = src/utils.c  src/main.c src/validate_input.c src/stack.c src/operations.c src/sort_tset.c
-OBJS = $(SRC:.c=.o)
-
+OBJ = $(src:.c=.o)
 LIBFT_DIR = LIBFT
-LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT = $(LIBFT_DIR)/libft.a  
 
-all : $(NAME)
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
 
-$(NAME) : $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(LIBFT) -o $(NAME) $(OBJS)
+all: $(NAME)
 
-%.o: %.c push_swap.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJ) $(LIBFT)  
+	$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 
-$(LIBFT) :
+$(LIBFT):
 	make -C $(LIBFT_DIR)
 
-clean : 
-	make -C $(LIBFT_DIR) clean
-	rm -rf $(OBJS) 
+clean: 
+	rm -f $(OBJ)
+	make -C $(LIBFT_DIR) clean 
 
-fclean : clean
+fclean:
+	rm -f $(OBJ)
+	rm -f $(NAME)
 	make -C $(LIBFT_DIR) fclean
-	rm -rf $(NAME)
 
-re : fclean all
+re:
+	make fclean
+	make all
 
-.PHONY : all re fclean clean 
+.PHONY: all clean fclean re
