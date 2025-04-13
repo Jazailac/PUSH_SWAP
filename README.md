@@ -98,4 +98,4 @@ This project is part of the curriculum at School 42.
 
 ## Author
 
-[Your Name]
+[Jazailac]
