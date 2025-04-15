@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_norm2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalalzailachi <jalalzailachi@student.42    +#+  +:+       +#+        */
+/*   By: jazailac <jazailac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 21:10:30 by jazailac          #+#    #+#             */
-/*   Updated: 2025/04/10 20:34:04 by jalalzailac      ###   ########.fr       */
+/*   Updated: 2025/04/10 21:09:26 by jazailac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ int	calculate_cost_b(t_stack *b, int pos)
 
 int	find_min(t_stack *stack)
 {
-	t_node	*curr;
+	t_node	*current;
 	int		min;
 
 	min = INT_MAX;
-	curr = stack->top;
-	while (curr)
+	current = stack->top;
+	while (current)
 	{
-		if (curr->value < min)
-			min = curr->value;
-		curr = curr->next;
+		if (current->value < min)
+			min = current->value;
+		current = current->next;
 	}
 	return (min);
 }
@@ -56,4 +56,11 @@ int	find_max(t_stack *stack)
 		current = current->next;
 	}
 	return (max);
+}
+
+int	calculate_distance(int pos, int size)
+{
+	if (pos <= size / 2)
+		return (pos);
+	return (size - pos);
 }

@@ -13,7 +13,9 @@ src = srcs/main.c \
 		srcs/sort_small.c \
 		srcs/sort_large.c \
 		srcs/help_norm1.c \
-		srcs/help_norm2.c
+		srcs/help_norm2.c \
+		srcs/help_norm3.c 
+
 
 OBJ = $(src:.c=.o)
 LIBFT_DIR = LIBFT

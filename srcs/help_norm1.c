@@ -6,7 +6,7 @@
 /*   By: jazailac <jazailac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 21:10:27 by jazailac          #+#    #+#             */
-/*   Updated: 2025/04/09 21:14:37 by jazailac         ###   ########.fr       */
+/*   Updated: 2025/04/11 00:22:52 by jazailac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	get_min_index(t_stack *stack)
 	return (min_index);
 }
 
-//why do we need to final rotate
 void	final_rotate(t_stack *a)
 {
 	int	min_index;
